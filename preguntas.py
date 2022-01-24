@@ -11,6 +11,8 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
+
 with open('data.csv', 'r') as file:
     my_reader = csv.reader(file, delimiter='\t')
     df = [row for row in my_reader]
