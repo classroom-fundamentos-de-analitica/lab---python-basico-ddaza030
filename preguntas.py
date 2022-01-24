@@ -343,10 +343,24 @@ def pregunta_11():
         "g": 35,
     }
 
-
+    
     """
-    return 0
+    new = []
+    for two, four in [(row[1],row[3]) for row in df]:
+        for elemento in four.split(","):
+            new.append([two,str(elemento)])
 
+    elements = list(set([str(row[1]) for row in new]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(row[1],row[0]) for row in new]:
+            if(first == element):
+                suma += int(second)
+        diccio[element] = suma
+    
+    return diccio
 
 def pregunta_12():
     """
@@ -361,6 +375,18 @@ def pregunta_12():
         'D': 136,
         'E': 324
     }
+    
 
     """
-    return 0
+    melo = [[row[0], [int(element[4:]) for element in row[4].split(",")]] for row in df]
+    
+    elements = list(set([str(row[0]) for row in df]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[0]),sum(row[1])) for row in melo]:
+            if(first == element):
+                suma += second
+        diccio[element] = suma
+    return diccio
