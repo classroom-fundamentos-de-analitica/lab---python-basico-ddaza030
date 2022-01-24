@@ -286,7 +286,7 @@ def pregunta_09():
     lista = ",".join(lista).split(",")
     lista = [row.split(":") for row in lista]
     elements = list(set([str(row[0]) for row in lista]))
-    resultado = []
+    resultado = {}
     
     for element in elements:
         
@@ -296,9 +296,9 @@ def pregunta_09():
             if(first == element):
               numeros += 1
                 
-        resultado.append((element,numeros))    
+        resultado[element] = numeros    
     
-    return sorted(resultado, key = lambda x: x[0])
+    return resultado
 
 
 def pregunta_10():
