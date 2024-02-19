@@ -11,7 +11,11 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
 
+with open('data.csv', 'r') as file:
+    my_reader = csv.reader(file, delimiter='\t')
+    df = [row for row in my_reader]
 
 def pregunta_01():
     """
@@ -21,7 +25,7 @@ def pregunta_01():
     214
 
     """
-    return
+    return sum([int(row[1]) for row in df])
 
 
 def pregunta_02():
@@ -39,7 +43,12 @@ def pregunta_02():
     ]
 
     """
-    return
+    
+    from collections import Counter
+    respuesta = [(key, num) for key, num in dict(Counter([str(row[0]) for row in df])).items()]
+    
+    
+    return sorted(respuesta, key = lambda x: x[0])
 
 
 def pregunta_03():
@@ -57,7 +66,17 @@ def pregunta_03():
     ]
 
     """
-    return
+    elements = list(set([str(row[0]) for row in df]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in df]:
+            if(first == element):
+                suma += second
+        diccio[element] = suma
+    
+    return sorted([(key, num) for key, num in diccio.items()], key = lambda x: x[0])
 
 
 def pregunta_04():
@@ -82,7 +101,18 @@ def pregunta_04():
     ]
 
     """
-    return
+    
+    elements = list(set([str(row[2])[5:7] for row in df]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[2])[5:7],int(row[1])) for row in df]:
+            if(first == element):
+                suma += 1
+        diccio[element] = suma
+    
+    return sorted([(key, num) for key, num in diccio.items()], key = lambda x: x[0])
 
 
 def pregunta_05():
@@ -98,9 +128,22 @@ def pregunta_05():
         ("D", 8, 3),
         ("E", 9, 1),
     ]
-
+    
     """
-    return
+    
+    elements = list(set([str(row[0]) for row in df]))
+    lista = []
+    for element in elements:
+        
+        numeros = []
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in df]:
+            if(first == element):
+                numeros.append(second)
+                
+        lista.append((element, max(numeros), min(numeros)))
+        
+    return sorted(lista, key = lambda x: x[0])
 
 
 def pregunta_06():
@@ -125,7 +168,24 @@ def pregunta_06():
     ]
 
     """
-    return
+    lista = [row[-1] for row in df]
+    
+    lista = ",".join(lista).split(",")
+    lista = [row.split(":") for row in lista]
+    elements = list(set([str(row[0]) for row in lista]))
+    resultado = []
+    
+    for element in elements:
+        
+        numeros = []
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in lista]:
+            if(first == element):
+                numeros.append(second)
+                
+        resultado.append((element, min(numeros), max(numeros)))    
+    
+    return sorted(resultado, key = lambda x: x[0])
 
 
 def pregunta_07():
@@ -149,7 +209,18 @@ def pregunta_07():
     ]
 
     """
-    return
+    elements = list(set([int(row[1]) for row in df]))
+    resultado=[]
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in df]:
+            if(second == element):
+                lista.append(first)
+        resultado.append((element, lista))
+        
+    
+    return sorted(resultado, key = lambda x: x[0])
 
 
 def pregunta_08():
@@ -174,7 +245,19 @@ def pregunta_08():
     ]
 
     """
-    return
+    elements = list(set([int(row[1]) for row in df]))
+    resultado=[]
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in df]:
+            if(second == element):
+                lista.append(first)
+        resultado.append((element, sorted(list(set(lista)))))
+        
+    
+    return sorted(resultado, key = lambda x: x[0])
+
 
 
 def pregunta_09():
@@ -197,7 +280,25 @@ def pregunta_09():
     }
 
     """
-    return
+    
+    lista = [row[-1] for row in df]
+    
+    lista = ",".join(lista).split(",")
+    lista = [row.split(":") for row in lista]
+    elements = list(set([str(row[0]) for row in lista]))
+    resultado = {}
+    
+    for element in elements:
+        
+        numeros = 0
+        suma = 0
+        for first, second in [(str(row[0]),int(row[1])) for row in lista]:
+            if(first == element):
+              numeros += 1
+                
+        resultado[element] = numeros    
+    
+    return resultado
 
 
 def pregunta_10():
@@ -215,10 +316,15 @@ def pregunta_10():
         ("E", 2, 3),
         ("E", 3, 3),
     ]
-
+    
 
     """
-    return
+    
+    lista = []
+    for first, second, tres in [(str(row[0]),row[3].split(","),row[4].split(",")) for row in df]:
+        lista.append((first, len(second),len(tres)))
+        
+    return lista
 
 
 def pregunta_11():
@@ -237,10 +343,24 @@ def pregunta_11():
         "g": 35,
     }
 
-
+    
     """
-    return
+    new = []
+    for two, four in [(row[1],row[3]) for row in df]:
+        for elemento in four.split(","):
+            new.append([two,str(elemento)])
 
+    elements = list(set([str(row[1]) for row in new]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(row[1],row[0]) for row in new]:
+            if(first == element):
+                suma += int(second)
+        diccio[element] = suma
+    
+    return diccio
 
 def pregunta_12():
     """
@@ -255,6 +375,18 @@ def pregunta_12():
         'D': 136,
         'E': 324
     }
+    
 
     """
-    return
+    melo = [[row[0], [int(element[4:]) for element in row[4].split(",")]] for row in df]
+    
+    elements = list(set([str(row[0]) for row in df]))
+    diccio = {}
+    for element in elements:
+        lista = []
+        suma = 0
+        for first, second in [(str(row[0]),sum(row[1])) for row in melo]:
+            if(first == element):
+                suma += second
+        diccio[element] = suma
+    return diccio
